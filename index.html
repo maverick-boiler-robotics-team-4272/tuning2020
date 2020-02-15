@@ -10,7 +10,8 @@
 
     var velocitySeries = new TimeSeries();
     var motorOutputSeries = new TimeSeries();
-    var intakeSeries = new TimeSeries();
+	
+	var ballAStatus, ballBStatus, ballCStatus, ballDStatus, ballEStatus;
 	
     NetworkTables.addKeyListener("/datatable/ShooterVelocity", function (key, value, isNew) {
       velocitySeries.append(new Date().getTime(), value);
@@ -100,6 +101,27 @@
       document.getElementById("start_stop").innerHTML = NetworkTables.getValue("/datatable/go_stop");
     }, 100);
 	
+	setInterval(function () {
+      ballAStatus = NetworkTables.getValue("/datatable/BallAStatus");
+    }, 100);
+	
+	setInterval(function () {
+      ballBStatus = NetworkTables.getValue("/datatable/BallBStatus");
+    }, 100);
+	
+	setInterval(function () {
+      ballCStatus = NetworkTables.getValue("/datatable/BallCStatus");
+    }, 100);
+	
+	setInterval(function () {
+      ballDStatus = NetworkTables.getValue("/datatable/BallDStatus");
+    }, 100);
+	
+	setInterval(function () {
+      ballEStatus = NetworkTables.getValue("/datatable/BallEStatus");
+	  switch_ball_value();
+    }, 100);
+	
     function onLoad() {
       var shooterChart = new SmoothieChart({ millisPerPixel: 8, maxValue: 5000, minValue: -100 });
       shooterChart.addTimeSeries(velocitySeries, { strokeStyle: 'rgba(255, 255, 0, 1)', lineWidth: 4 });
@@ -136,6 +158,24 @@
       NetworkTables.putValue("/datatable/intake_kD", kd);
       NetworkTables.putValue("/datatable/intake_kF", kff);
     }
+	
+	function switch_ball_value(){
+	  if(ballAStatus){
+	    document.getElementByClassName("ballA").fill = "yellow";
+	  }
+	  if(ballBStatus){
+	    document.getElementByClassName("ballA").fill = "yellow";
+	  }
+	  if(ballCStatus){
+	    document.getElementByClassName("ballA").fill = "yellow";
+	  }
+	  if(ballDStatus){
+	    document.getElementByClassName("ballA").fill = "yellow";
+	  }
+	  if(ballEStatus){
+	    document.getElementByClassName("ballA").fill = "yellow";
+	  }
+	}
 
   </script>
 </head>
@@ -209,6 +249,15 @@
   <p><span id="start_stop"></span></p>
   
   <p>intake temperature: <span id="intake_temp"></span></p>
+  
+  <svg width="250" height="50">
+    <circle class="ballA" cx="25" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
+    <circle class="ballB" cx="75" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
+    <circle class="ballC" cx="125" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
+    <circle class="ballD" cx="175" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
+    <circle class="ballE" cx="225" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
+	you sucker, you cant see this awesome ball placement display
+  </svg>
   
   
   
