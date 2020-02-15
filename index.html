@@ -141,35 +141,24 @@
 </head>
 
 <body onload="onLoad()">
-  Shooter Velocity: <span id=readout></span>
-  <br />
+<table border="1">
+<tr>
+  <td>Shooter Velocity: <span id=readout></span>
+  <br/>
   <canvas id="shooterChart" width="1200" height="150"></canvas>
-  <br />
+  <br /></td>
+  <td><p>current setpoint: <span id=setpointReadout></span></p>
+  <p>min value on graph: <span id=minVal></span></p>
+  <p>max value on graph: <span id=maxVal></span></p></td>
+ </tr>
+ <tr>
+ <td>
   Shooter motor output: <span id=outReadout></span>
   <br />
   <canvas id="outputChart" width="1200" height="100"></canvas>
-  <br />
-  Intake velocity: <span id=intakeReadout></span>
-  <br />
-  <canvas id="intakeChart" width="1200" height="125"></canvas>
-  <p>current setpoint: <span id=setpointReadout></span></p>
-  <p>min value on graph: <span id=minVal></span></p>
-  <p>max value on graph: <span id=maxVal></span></p>
-  
-  <p>color sensor value: <span id="color"></span></p>
-  <p>current color{ R: <span id="raw_color_r"></span> G: <span id="raw_color_g"></span> B: <span id="raw_color_b"></span> }</p>
-  <p>proximity <span id="proximity"></span></p>
-  <p><span id="start_stop"></span></p>
-  
-  <p>intake temperature: <span id="intake_temp"></span></p>
-  
-  
-  <tr>
-      <th>Motor PID Values</th>
-    </tr>
-    <tr>
-      <td>
-        <form>
+  <br /></td>
+  <td>
+  <strong>Shooter PID Values:</strong><br/>
           P:
           <input id="kp" step="0.001" type="number">
           <br>
@@ -183,10 +172,17 @@
           <input id="kff" step="0.001" type="number">
           <br>
           <button id="submitMotorPID" type="button" onclick="submitMotorValue()">Update Motor PID</button>
-		  
-		  <br />
-		  
-		  <strong>Intake Motor PID</strong>
+  
+  </td>
+ </tr>
+ <tr>
+  <td>
+  Intake velocity: <span id=intakeReadout></span>
+  <br />
+  <canvas id="intakeChart" width="1200" height="125"></canvas>
+  <br/></td>
+  <td>
+  		  <strong>Intake Motor PID</strong>
 		  
 		  <br />
 		  
@@ -203,6 +199,19 @@
           <input id="intakekff" step="0.001" type="number">
           <br>
           <button id="submitMotorPID" type="button" onclick="submitMotorValueB()">Update Intake Motor PID</button>
+  </td>
+  </tr>
+  </table>
+  
+  <p>color sensor value: <span id="color"></span></p>
+  <p>current color{ R: <span id="raw_color_r"></span> G: <span id="raw_color_g"></span> B: <span id="raw_color_b"></span> }</p>
+  <p>proximity <span id="proximity"></span></p>
+  <p><span id="start_stop"></span></p>
+  
+  <p>intake temperature: <span id="intake_temp"></span></p>
+  
+  
+  
   
 
 </html>
