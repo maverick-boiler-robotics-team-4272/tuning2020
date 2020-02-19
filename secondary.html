@@ -8,25 +8,55 @@
   <script src="/networktables/networktables.js"></script>
   <script type="text/javascript">
 
-    var velocitySeries = new TimeSeries();
-    var motorOutputSeries = new TimeSeries();
-    var intakeSeries = new TimeSeries();
-	
-    NetworkTables.addKeyListener("/datatable/ShooterVelocity", function (key, value, isNew) {
-      velocitySeries.append(new Date().getTime(), value);
-	  document.getElementById("RightReadout").innerText = value;
-	  document.getElementById("RightMinVal").innerText = velocitySeries.minValue;
-	  document.getElementById("RightMaxVal").innerText = velocitySeries.maxValue;
-    }, true);
-	
-	NetworkTables.addKeyListener("/datatable/ShooterOutput", function (key, value, isNew) {
-		motorOutputSeries.append(new Date.getTime(), value);
-		document.getElementById("rightOutReadout").innerText = value;
-	}, true);
-	
-	NetworkTables.addKeyListener("/datatable/ShooterVelocitySetPoint", function (key, value, isNew) {
-      document.getElementById("rightSetpointReadout").innerText = value;
-	}, true);
+
+function init() {
+  initHost('rightVelocity', -100, 5000, "rightMinVal", "rightMaxVal", "RightReadout", 2, "/datatable/rightDriveVelocity", "/datatable/rightSetpointReadout");
+  initHost('rightOutput', -1.0, 1.0, "rightPowerMinVal", "rightPowerMaxVal", "RightPowerReadout", 1,  "/datatable/rightDriveOutput", "/datatable/rightSetpointReadout");
+  initHost('leftVelocity', -100, 5000, "leftMinVal", "leftMaxVal", "LeftReadout", 2, "/datatable/leftDriveVelocity", "/datatable/leftSetpointReadout");
+  initHost('leftOutput', -1.0, 1.0, "leftPowerMinVal", "leftPowerMaxVal", "LeftPowerReadout", 1,  "/datatable/leftDriveOutput", "/datatable/leftSetpointReadout");
+}
+
+var seriesOptions = [
+  { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0)', lineWidth: 3 },
+  { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0)', lineWidth: 3 },
+];
+
+function initHost(hostId, minVal, maxVal, minReadoutId, maxReadoutId, currentReadoutId, numLines, netwrktblnm, networktablesetpointname) {
+
+  var usefulDataSets;
+  if(numLines == 1){
+    usefulDataSets = [new TimeSeries()];
+  } else if(numLines == 2){
+    usefulDataSets = [new TimeSeries(), new TimeSeries()];
+  }
+
+  setInterval(function() {
+    addValueToDataSets(new Date().getTime(), usefulDataSets, maxVal, minReadoutId, maxReadoutId, currentReadoutId, numLines, NetworkTables.getValue(netwrktblnm), NetworkTables.getValue(networktablesetpointname));
+  }, 500);
+
+  // Build the timeline
+  var timeline = new SmoothieChart({ millisPerPixel: 20, grid: { strokeStyle: '#555555', lineWidth: 1, millisPerLine: 1000, verticalSections: 4}, maxValue: maxVal, minValue: minVal});
+  timeline.addTimeSeries(usefulDataSets[0], seriesOptions[0]);
+  if(numLines == 2){
+    timeline.addTimeSeries(usefulDataSets[1], seriesOptions[1]);
+  }
+  timeline.streamTo(document.getElementById(hostId), 500);
+}
+
+function addValueToDataSets(time, dataSets, maxVal, minReadoutId, maxReadoutId, currentReadoutId, numLines, currentValue, setpoint) {
+    var CurrentVal = Math.random()*maxVal;
+    //var CurrentVal = currentValue;
+    dataSets[0].append(time, CurrentVal);
+	if(numLines == 2){
+      dataSets[1].append(time, maxVal/2);
+      //dataSets[1].append(time, setpoint);
+	}
+	document.getElementById(minReadoutId).innerHTML = dataSets[0].minValue;
+	document.getElementById(maxReadoutId).innerHTML = dataSets[0].maxValue;
+	document.getElementById(currentReadoutId).innerHTML = CurrentVal;
+}
+
+
 	
 	NetworkTables.addKeyListener("/datatable/drivekP", function (key, value, isNew) {
       document.getElementById("kp").value = value;
@@ -45,24 +75,10 @@
 	}, true);
 	
 	
-    setInterval(function () {
-      velocitySeries.append(new Date().getTime(), NetworkTables.getValue("/datatable/rightDriveVelocity"));
-    }, 10);
 	
-	setInterval(function () {
-	  motorOutputSeries.append(new Date().getTime(), NetworkTables.getValue("/datatable/rightDriveOutput"));
-	}, 10);
 	
     function onLoad() {
-      var shooterChart = new SmoothieChart({ millisPerPixel: 8, maxValue: 5000, minValue: -100 });
-      shooterChart.addTimeSeries(velocitySeries, { strokeStyle: 'rgba(255, 255, 0, 1)', lineWidth: 4 });
-	  shooterChart.streamTo(document.getElementById("rightVelocity"), 100);
-	  
-	  var motorOutputChart = new SmoothieChart({millisPerPixel: 8, maxValue: 1.0, minValue: -0.1 });
-	  motorOutputChart.addTimeSeries(motorOutputSeries, { strokeStyle: 'rgba(255, 255, 0, 1)', lineWidth: 4 });
-	  motorOutputChart.streamTo(document.getElementById("rightOutput"), 100);
-	  
-
+	  init();
     }
 	
 	function submitMotorValue() {
@@ -77,6 +93,26 @@
     }
 
   </script>
+  <style>
+table {
+  border-collapse: collapse;
+}
+table td {
+  border: 1px solid black; 
+}
+table tr:first-child td {
+  border-top: 0;
+}
+table tr td:first-child {
+  border-left: 0;
+}
+table tr:last-child td {
+  border-bottom: 0;
+}
+table tr td:last-child {
+  border-right: 0;
+}
+  </style>
 </head>
 
 <body onload="onLoad()">
@@ -96,8 +132,32 @@
   <br />
   <canvas id="rightOutput" width="1200" height="100"></canvas>
   <br /></td>
+  <td><p>current setpoint: <span id=RightPowerReadout></span></p>
+  <p>min value on graph: <span id=rightPowerMinVal></span></p>
+  <p>max value on graph: <span id=rightPowerMaxVal></span></p></td>
+ </tr>
+ <tr>
+  <td>Left Velocity: <span id=readout></span>
+  <br/>
+  <canvas id="leftVelocity" width="1200" height="150"></canvas>
+  <br /></td>
+  <td><p>current setpoint: <span id=LeftReadout></span></p>
+  <p>min value on graph: <span id=leftMinVal></span></p>
+  <p>max value on graph: <span id=leftMaxVal></span></p></td>
+ </tr>
+ <tr>
+ <td>
+  Left motor output: <span id=leftOutReadout></span>
+  <br />
+  <canvas id="leftOutput" width="1200" height="100"></canvas>
+  <br /></td>
+  <td><p>current setpoint: <span id=LeftPowerReadout></span></p>
+  <p>min value on graph: <span id=leftPowerMinVal></span></p>
+  <p>max value on graph: <span id=leftPowerMaxVal></span></p></td>
  </tr>
   </table>
+  
+<p><em>for above graphs <strong>red</strong> is the current output, and <strong>green</strong> is the target output</em></p>
   
   <strong>PID Values:</strong><br/>
           P:
@@ -113,6 +173,8 @@
           <input id="kff" step="0.001" type="number">
           <br>
           <button id="submitMotorPID" type="button" onclick="submitMotorValue()">Update Motor PID</button>
+		  <br/>
+  <video src="limelight.local:5800"/>
   
   
 

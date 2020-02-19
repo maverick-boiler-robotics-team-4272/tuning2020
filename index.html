@@ -10,6 +10,7 @@
 
     var velocitySeries = new TimeSeries();
     var motorOutputSeries = new TimeSeries();
+	var intakeSeries = new TimeSeries();
 	
 	var ballAStatus, ballBStatus, ballCStatus, ballDStatus, ballEStatus;
 	
@@ -164,20 +165,40 @@
 	    document.getElementByClassName("ballA").fill = "yellow";
 	  }
 	  if(ballBStatus){
-	    document.getElementByClassName("ballA").fill = "yellow";
+	    document.getElementByClassName("ballB").fill = "yellow";
 	  }
 	  if(ballCStatus){
-	    document.getElementByClassName("ballA").fill = "yellow";
+	    document.getElementByClassName("ballC").fill = "yellow";
 	  }
 	  if(ballDStatus){
-	    document.getElementByClassName("ballA").fill = "yellow";
+	    document.getElementByClassName("ballD").fill = "yellow";
 	  }
 	  if(ballEStatus){
-	    document.getElementByClassName("ballA").fill = "yellow";
+	    document.getElementByClassName("ballE").fill = "yellow";
 	  }
 	}
 
   </script>
+  <style>
+table {
+  border-collapse: collapse;
+}
+table td {
+  border: 1px solid black; 
+}
+table tr:first-child td {
+  border-top: 0;
+}
+table tr td:first-child {
+  border-left: 0;
+}
+table tr:last-child td {
+  border-bottom: 0;
+}
+table tr td:last-child {
+  border-right: 0;
+}
+  </style>
 </head>
 
 <body onload="onLoad()">
@@ -258,6 +279,8 @@
     <circle class="ballE" cx="225" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
 	you sucker, you cant see this awesome ball placement display
   </svg>
+  <br/>
+  <a href="/secondary.html" target="_blank">second page</a>
   
   
   
