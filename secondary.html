@@ -10,9 +10,9 @@
 
 
 function init() {
-  initHost('rightVelocity', -100, 5000, "rightMinVal", "rightMaxVal", "RightReadout", 2, "/datatable/rightDriveVelocity", "/datatable/rightSetpointReadout");
+  initHost('rightVelocity', -200, 200, "rightMinVal", "rightMaxVal", "RightReadout", 2, "/datatable/rightDriveVelocity", "/datatable/rightSetpointReadout");
   initHost('rightOutput', -1.0, 1.0, "rightPowerMinVal", "rightPowerMaxVal", "RightPowerReadout", 1,  "/datatable/rightDriveOutput", "/datatable/rightSetpointReadout");
-  initHost('leftVelocity', -100, 5000, "leftMinVal", "leftMaxVal", "LeftReadout", 2, "/datatable/leftDriveVelocity", "/datatable/leftSetpointReadout");
+  initHost('leftVelocity', -200, 200, "leftMinVal", "leftMaxVal", "LeftReadout", 2, "/datatable/leftDriveVelocity", "/datatable/leftSetpointReadout");
   initHost('leftOutput', -1.0, 1.0, "leftPowerMinVal", "leftPowerMaxVal", "LeftPowerReadout", 1,  "/datatable/leftDriveOutput", "/datatable/leftSetpointReadout");
 }
 
@@ -44,12 +44,12 @@ function initHost(hostId, minVal, maxVal, minReadoutId, maxReadoutId, currentRea
 }
 
 function addValueToDataSets(time, dataSets, maxVal, minReadoutId, maxReadoutId, currentReadoutId, numLines, currentValue, setpoint) {
-    var CurrentVal = Math.random()*maxVal;
-    //var CurrentVal = currentValue;
+    //var CurrentVal = Math.random()*maxVal;
+    var CurrentVal = currentValue;
     dataSets[0].append(time, CurrentVal);
 	if(numLines == 2){
-      dataSets[1].append(time, maxVal/2);
-      //dataSets[1].append(time, setpoint);
+      //dataSets[1].append(time, maxVal/2);
+      dataSets[1].append(time, setpoint);
 	}
 	document.getElementById(minReadoutId).innerHTML = dataSets[0].minValue;
 	document.getElementById(maxReadoutId).innerHTML = dataSets[0].maxValue;

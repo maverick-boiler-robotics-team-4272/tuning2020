@@ -161,19 +161,19 @@
     }
 	
 	function switch_ball_value(){
-	  if(ballAStatus){
+	  if(ballAStatus = true){
 	    document.getElementByClassName("ballA").fill = "yellow";
 	  }
-	  if(ballBStatus){
+	  if(ballBStatus = true){
 	    document.getElementByClassName("ballB").fill = "yellow";
 	  }
-	  if(ballCStatus){
+	  if(ballCStatus = true){
 	    document.getElementByClassName("ballC").fill = "yellow";
 	  }
-	  if(ballDStatus){
+	  if(ballDStatus = true){
 	    document.getElementByClassName("ballD").fill = "yellow";
 	  }
-	  if(ballEStatus){
+	  if(ballEStatus = true){
 	    document.getElementByClassName("ballE").fill = "yellow";
 	  }
 	}
@@ -220,6 +220,7 @@ table tr td:last-child {
   <br /></td>
   <td>
   <strong>Shooter PID Values:</strong><br/>
+		  <form>
           P:
           <input id="kp" step="0.001" type="number">
           <br>
@@ -233,6 +234,7 @@ table tr td:last-child {
           <input id="kff" step="0.001" type="number">
           <br>
           <button id="submitMotorPID" type="button" onclick="submitMotorValue()">Update Motor PID</button>
+		  </form>
   
   </td>
  </tr>
