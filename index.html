@@ -124,7 +124,7 @@
     }, 100);
 	
     function onLoad() {
-      var shooterChart = new SmoothieChart({ millisPerPixel: 8, maxValue: 5000, minValue: -100 });
+      var shooterChart = new SmoothieChart({ millisPerPixel: 8, maxValue: 7000, minValue: -100 });
       shooterChart.addTimeSeries(velocitySeries, { strokeStyle: 'rgba(255, 255, 0, 1)', lineWidth: 4 });
 	  shooterChart.streamTo(document.getElementById("shooterChart"), 100);
 	  
@@ -158,6 +158,12 @@
       NetworkTables.putValue("/datatable/intake_kI", ki);
       NetworkTables.putValue("/datatable/intake_kD", kd);
       NetworkTables.putValue("/datatable/intake_kF", kff);
+    }
+
+    function submitTargetVeloc() {
+      var targetVelocityValue = parseFloat(document.getElementById("targetVeloc").value);
+      console.log("new target velocity: " + targetVelocityValue);
+      NetworkTables.putValue("/datatable/targetVeloc", targetVelocityValue);
     }
 	
 	function switch_ball_value(){
@@ -283,6 +289,13 @@ table tr td:last-child {
   </svg>
   <br/>
   <a href="/secondary.html" target="_blank">second page</a>
+  
+  <video src="http://10.42.72.70"></video><br/>
+  
+  target volocity:
+  <input id="targetVeloc" step="100" type="number">
+  <br>
+  <button id="targetVelocButton" type="button" onclick="submitTargetVeloc()">Update Target Velocity</button>
   
   
   
