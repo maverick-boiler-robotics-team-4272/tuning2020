@@ -23,7 +23,7 @@
     }, true);
 	
 	NetworkTables.addKeyListener("/datatable/ShooterOutput", function (key, value, isNew) {
-		motorOutputSeries.append(new Date.getTime(), value);
+		motorOutputSeries.append(new Date().getTime(), value);
 		document.getElementById("outReadout").innerText = value;
 	}, true);
 	
@@ -32,7 +32,7 @@
 	}, true);
 	
 	NetworkTables.addKeyListener("/datatable/IntakeVelocity", function (key, value, isNew) {
-		intakeSeries.append(new Date.getTime(), value);
+		intakeSeries.append(new Date().getTime(), value);
 	}, true);
 	
 	NetworkTables.addKeyListener("/datatable/shooter_kP", function (key, value, isNew) {
@@ -206,7 +206,12 @@ table tr td:last-child {
   <br /></td>
   <td><p>current setpoint: <span id=setpointReadout></span></p>
   <p>min value on graph: <span id=minVal></span></p>
-  <p>max value on graph: <span id=maxVal></span></p></td>
+  <p>max value on graph: <span id=maxVal></span></p>
+  target velocity:
+  <input id="targetVeloc" step="100" type="number">
+  <br>
+  <button id="targetVelocButton" type="button" onclick="submitTargetVeloc()">Update Target Velocity</button>
+</td>
  </tr>
  <tr>
  <td>
@@ -319,14 +324,4 @@ table tr td:last-child {
   <a href="/secondary.html" target="_blank">second page</a>
   
   <video src="http://10.42.72.70"></video><br/>
-  
-  target volocity:
-  <input id="targetVeloc" step="100" type="number">
-  <br>
-  <button id="targetVelocButton" type="button" onclick="submitTargetVeloc()">Update Target Velocity</button>
-  
-  
-  
-  
-
 </html>
