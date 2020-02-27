@@ -13,6 +13,7 @@
 	var intakeSeries = new TimeSeries();
 	
 	var ballAStatus, ballBStatus, ballCStatus, ballDStatus, ballEStatus;
+
 	
     NetworkTables.addKeyListener("/datatable/ShooterVelocity", function (key, value, isNew) {
       velocitySeries.append(new Date().getTime(), value);
@@ -103,25 +104,13 @@
     }, 100);
 	
 	setInterval(function () {
-      ballAStatus = NetworkTables.getValue("/datatable/BallAStatus");
-    }, 100);
-	
-	setInterval(function () {
+      /*ballAStatus = NetworkTables.getValue("/datatable/BallAStatus");
       ballBStatus = NetworkTables.getValue("/datatable/BallBStatus");
-    }, 100);
-	
-	setInterval(function () {
       ballCStatus = NetworkTables.getValue("/datatable/BallCStatus");
-    }, 100);
-	
-	setInterval(function () {
       ballDStatus = NetworkTables.getValue("/datatable/BallDStatus");
-    }, 100);
-	
-	setInterval(function () {
-      ballEStatus = NetworkTables.getValue("/datatable/BallEStatus");
-	  switch_ball_value();
-    }, 100);
+      ballEStatus = NetworkTables.getValue("/datatable/BallEStatus");*/
+	    switch_ball_value();
+    }, 10000);
 	
     function onLoad() {
       var shooterChart = new SmoothieChart({ millisPerPixel: 8, maxValue: 7000, minValue: -100 });
@@ -167,20 +156,20 @@
     }
 	
 	function switch_ball_value(){
-	  if(ballAStatus = true){
-	    document.getElementByClassName("ballA").fill = "yellow";
+	  if(ballAStatus == true){
+	    document.getElementById("ballA").style.fill = "yellow";
 	  }
-	  if(ballBStatus = true){
-	    document.getElementByClassName("ballB").fill = "yellow";
+	  if(ballBStatus){
+	    document.getElementById("ballB").style.fill = "yellow";
 	  }
-	  if(ballCStatus = true){
-	    document.getElementByClassName("ballC").fill = "yellow";
+	  if(ballCStatus){
+	    document.getElementById("ballC").style.fill = "yellow";
 	  }
-	  if(ballDStatus = true){
-	    document.getElementByClassName("ballD").fill = "yellow";
+	  if(ballDStatus){
+	    document.getElementById("ballD").style.fill = "yellow";
 	  }
-	  if(ballEStatus = true){
-	    document.getElementByClassName("ballE").fill = "yellow";
+	  if(ballEStatus){
+	    document.getElementById("ballE").style.fill = "yellow";
 	  }
 	}
 
@@ -188,6 +177,7 @@
   <style>
 table {
   border-collapse: collapse;
+  border:1px solid black;
 }
 table td {
   border: 1px solid black; 
@@ -208,7 +198,7 @@ table tr td:last-child {
 </head>
 
 <body onload="onLoad()">
-<table border="1">
+<table>
 <tr>
   <td>Shooter Velocity: <span id=readout></span>
   <br/>
@@ -278,13 +268,51 @@ table tr td:last-child {
   <p><span id="start_stop"></span></p>
   
   <p>intake temperature: <span id="intake_temp"></span></p>
-  
-  <svg width="250" height="50">
-    <circle class="ballA" cx="25" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
-    <circle class="ballB" cx="75" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
-    <circle class="ballC" cx="125" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
-    <circle class="ballD" cx="175" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
-    <circle class="ballE" cx="225" cy="25" r="20" stroke="black" stroke-width="2" fill="black"/>
+  <style>
+    div.allthesvgs svg{
+      display: inline-block;
+      width:50px;
+      height:50px;
+    }
+    div.allthesvgs svg use{
+      stroke: black;
+      stroke-width: 2px;
+      fill: black;
+    }
+  </style>
+  <div class="allthesvgs">
+    <svg>
+      <use xlink:href="#ballA"></use>
+    </svg>
+    <svg>
+      <use xlink:href="#ballB"></use>
+    </svg>
+    <svg>
+      <use xlink:href="#ballC"></use>
+    </svg>
+    <svg>
+      <use xlink:href="#ballD"></use>
+    </svg>
+    <svg>
+      <use xlink:href="#ballE"></use>
+    </svg>
+  </div>
+  <svg style="display:none;">
+    <symbol id="ballA" width="50" height="50">
+        <circle cx="25" cy="25" r="20"/>
+    </symbol>
+    <symbol id="ballB" width="50" height="50">
+        <circle cx="25" cy="25" r="20"/>
+    </symbol>
+    <symbol id="ballC" width="50" height="50">
+        <circle cx="25" cy="25" r="20"/>
+    </symbol>
+    <symbol id="ballD" width="50" height="50">
+        <circle cx="25" cy="25" r="20"/>
+    </symbol>
+    <symbol id="ballE" width="50" height="50">
+        <circle cx="25" cy="25" r="20"/>
+    </symbol>
 	you sucker, you cant see this awesome ball placement display
   </svg>
   <br/>
