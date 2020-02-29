@@ -104,13 +104,13 @@
     }, 100);
 	
 	setInterval(function () {
-      /*ballAStatus = NetworkTables.getValue("/datatable/BallAStatus");
+      ballAStatus = NetworkTables.getValue("/datatable/BallAStatus");
       ballBStatus = NetworkTables.getValue("/datatable/BallBStatus");
       ballCStatus = NetworkTables.getValue("/datatable/BallCStatus");
       ballDStatus = NetworkTables.getValue("/datatable/BallDStatus");
-      ballEStatus = NetworkTables.getValue("/datatable/BallEStatus");*/
+      ballEStatus = NetworkTables.getValue("/datatable/BallEStatus");
 	    switch_ball_value();
-    }, 10000);
+    }, 100);
 	
     function onLoad() {
       var shooterChart = new SmoothieChart({ millisPerPixel: 8, maxValue: 7000, minValue: -100 });
@@ -157,19 +157,19 @@
 	
 	function switch_ball_value(){
 	  if(ballAStatus == true){
-	    document.getElementById("ballA").style.fill = "yellow";
+	    document.getElementById("dballA").style.fill = "yellow";
 	  }
 	  if(ballBStatus){
-	    document.getElementById("ballB").style.fill = "yellow";
+	    document.getElementById("dballB").style.fill = "yellow";
 	  }
 	  if(ballCStatus){
-	    document.getElementById("ballC").style.fill = "yellow";
+	    document.getElementById("dballC").style.fill = "yellow";
 	  }
 	  if(ballDStatus){
-	    document.getElementById("ballD").style.fill = "yellow";
+	    document.getElementById("dballD").style.fill = "yellow";
 	  }
 	  if(ballEStatus){
-	    document.getElementById("ballE").style.fill = "yellow";
+	    document.getElementById("dballE").style.fill = "yellow";
 	  }
 	}
 
@@ -287,19 +287,19 @@ table tr td:last-child {
   </style>
   <div class="allthesvgs">
     <svg>
-      <use xlink:href="#ballA"></use>
+      <use id="dballA" xlink:href="#ballA"></use>
     </svg>
     <svg>
-      <use xlink:href="#ballB"></use>
+      <use id="dballB" xlink:href="#ballB"></use>
     </svg>
     <svg>
-      <use xlink:href="#ballC"></use>
+      <use id="dballC" xlink:href="#ballC"></use>
     </svg>
     <svg>
-      <use xlink:href="#ballD"></use>
+      <use id="dballD" xlink:href="#ballD"></use>
     </svg>
     <svg>
-      <use xlink:href="#ballE"></use>
+      <use id="dballE" xlink:href="#ballE"></use>
     </svg>
   </div>
   <svg style="display:none;">
@@ -321,7 +321,7 @@ table tr td:last-child {
 	you sucker, you cant see this awesome ball placement display
   </svg>
   <br/>
-  <a href="/secondary.html" target="_blank">second page</a>
+  <a href="/secondary.html" target="_blank">second page</a><br/>
   
-  <video src="http://10.42.72.70"></video><br/>
+  <img class="" src="http://limelight.local:5800" alt="limelight stream" width="100%" style="cursor: auto;"><br/>
 </html>
