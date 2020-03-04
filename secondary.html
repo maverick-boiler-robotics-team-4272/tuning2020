@@ -10,10 +10,10 @@
 
 
 function init() {
-  initHost('rightVelocity', -200, 200, "rightMinVal", "rightMaxVal", "RightReadout", 2, "/datatable/rightDriveVelocity", "/datatable/rightSetpointReadout");
-  initHost('rightOutput', -1.0, 1.0, "rightPowerMinVal", "rightPowerMaxVal", "RightPowerReadout", 1,  "/datatable/rightDriveOutput", "/datatable/rightSetpointReadout");
-  initHost('leftVelocity', -200, 200, "leftMinVal", "leftMaxVal", "LeftReadout", 2, "/datatable/leftDriveVelocity", "/datatable/leftSetpointReadout");
-  initHost('leftOutput', -1.0, 1.0, "leftPowerMinVal", "leftPowerMaxVal", "LeftPowerReadout", 1,  "/datatable/leftDriveOutput", "/datatable/leftSetpointReadout");
+  initHost('rightVelocity', -4, 4, "rightMinVal", "rightMaxVal", "RightReadout", "RightSetReadout", 2, "/datatable/rightDriveVelocity", "/datatable/rightSetpointReadout");
+  initHost('rightOutput', -1.0, 1.0, "rightPowerMinVal", "rightPowerMaxVal", "RightPowerReadout", "", 1,  "/datatable/rightDriveOutput", "/datatable/rightSetpointReadout");
+  initHost('leftVelocity', -4, 4, "leftMinVal", "leftMaxVal", "LeftReadout", "LeftSetReadout", 2, "/datatable/leftDriveVelocity", "/datatable/leftSetpointReadout");
+  initHost('leftOutput', -1.0, 1.0, "leftPowerMinVal", "leftPowerMaxVal", "LeftPowerReadout", "", 1,  "/datatable/leftDriveOutput", "/datatable/leftSetpointReadout");
 }
 
 var seriesOptions = [
@@ -21,7 +21,7 @@ var seriesOptions = [
   { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0)', lineWidth: 3 },
 ];
 
-function initHost(hostId, minVal, maxVal, minReadoutId, maxReadoutId, currentReadoutId, numLines, netwrktblnm, networktablesetpointname) {
+function initHost(hostId, minVal, maxVal, minReadoutId, maxReadoutId, currentReadoutId, setpointReadoutId, numLines, netwrktblnm, networktablesetpointname) {
 
   var usefulDataSets;
   if(numLines == 1){
@@ -31,7 +31,7 @@ function initHost(hostId, minVal, maxVal, minReadoutId, maxReadoutId, currentRea
   }
 
   setInterval(function() {
-    addValueToDataSets(new Date().getTime(), usefulDataSets, maxVal, minReadoutId, maxReadoutId, currentReadoutId, numLines, NetworkTables.getValue(netwrktblnm), NetworkTables.getValue(networktablesetpointname));
+    addValueToDataSets(new Date().getTime(), usefulDataSets, maxVal, minReadoutId, maxReadoutId, currentReadoutId, setpointReadoutId, numLines, NetworkTables.getValue(netwrktblnm), NetworkTables.getValue(networktablesetpointname));
   }, 500);
 
   // Build the timeline
@@ -43,7 +43,7 @@ function initHost(hostId, minVal, maxVal, minReadoutId, maxReadoutId, currentRea
   timeline.streamTo(document.getElementById(hostId), 500);
 }
 
-function addValueToDataSets(time, dataSets, maxVal, minReadoutId, maxReadoutId, currentReadoutId, numLines, currentValue, setpoint) {
+function addValueToDataSets(time, dataSets, maxVal, minReadoutId, maxReadoutId, currentReadoutId, setpointReadoutId, numLines, currentValue, setpoint) {
     //var CurrentVal = Math.random()*maxVal;
     var CurrentVal = currentValue;
     dataSets[0].append(time, CurrentVal);
@@ -54,6 +54,7 @@ function addValueToDataSets(time, dataSets, maxVal, minReadoutId, maxReadoutId, 
 	document.getElementById(minReadoutId).innerHTML = dataSets[0].minValue;
 	document.getElementById(maxReadoutId).innerHTML = dataSets[0].maxValue;
 	document.getElementById(currentReadoutId).innerHTML = CurrentVal;
+	document.getElementById(setpointReadoutId).innterHTML = setpoint;
 }
 
 
@@ -118,11 +119,11 @@ table tr td:last-child {
 <body onload="onLoad()">
 <table border="1">
 <tr>
-  <td>Right Velocity: <span id=readout></span>
+  <td>Right Velocity: <span id=RightReadout></span>
   <br/>
   <canvas id="rightVelocity" width="1200" height="150"></canvas>
   <br /></td>
-  <td><p>current setpoint: <span id=RightReadout></span></p>
+  <td><p>current setpoint: <span id=RightSetReadout></span></p>
   <p>min value on graph: <span id=rightMinVal></span></p>
   <p>max value on graph: <span id=rightMaxVal></span></p></td>
  </tr>
@@ -137,11 +138,11 @@ table tr td:last-child {
   <p>max value on graph: <span id=rightPowerMaxVal></span></p></td>
  </tr>
  <tr>
-  <td>Left Velocity: <span id=readout></span>
+  <td>Left Velocity: <span id=LeftReadout></span>
   <br/>
   <canvas id="leftVelocity" width="1200" height="150"></canvas>
   <br /></td>
-  <td><p>current setpoint: <span id=LeftReadout></span></p>
+  <td><p>current setpoint: <span id=LeftSetReadout></span></p>
   <p>min value on graph: <span id=leftMinVal></span></p>
   <p>max value on graph: <span id=leftMaxVal></span></p></td>
  </tr>
