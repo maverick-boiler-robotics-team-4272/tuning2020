@@ -10,9 +10,9 @@
 
 
 function init() {
-  initHost('rightVelocity', -4, 4, "rightMinVal", "rightMaxVal", "RightReadout", "RightSetReadout", 2, "/datatable/rightDriveVelocity", "/datatable/rightSetpointReadout");
+  initHost('rightVelocity', -0.5, 0.5, "rightMinVal", "rightMaxVal", "RightReadout", "RightSetReadout", 2, "/datatable/rightDriveVelocity", "/datatable/rightSetpointReadout");
   initHost('rightOutput', -1.0, 1.0, "rightPowerMinVal", "rightPowerMaxVal", "RightPowerReadout", "", 1,  "/datatable/rightDriveOutput", "/datatable/rightSetpointReadout");
-  initHost('leftVelocity', -4, 4, "leftMinVal", "leftMaxVal", "LeftReadout", "LeftSetReadout", 2, "/datatable/leftDriveVelocity", "/datatable/leftSetpointReadout");
+  initHost('leftVelocity', -0.5, 0.5, "leftMinVal", "leftMaxVal", "LeftReadout", "LeftSetReadout", 2, "/datatable/leftDriveVelocity", "/datatable/leftSetpointReadout");
   initHost('leftOutput', -1.0, 1.0, "leftPowerMinVal", "leftPowerMaxVal", "LeftPowerReadout", "", 1,  "/datatable/leftDriveOutput", "/datatable/leftSetpointReadout");
 }
 
@@ -175,7 +175,7 @@ table tr td:last-child {
           <br>
           <button id="submitMotorPID" type="button" onclick="submitMotorValue()">Update Motor PID</button>
 		  <br/>
-  <video src="limelight.local:5800"/>
+  <img src="http://10.42.72.11:5800/"/>
   
   
 
